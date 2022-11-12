@@ -42,7 +42,7 @@ public class GuideGUI extends JFrame {
 	public GuideGUI() {
 		String text = "https://tinyurl.com/2ym9hyhp";
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 662, 210);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
