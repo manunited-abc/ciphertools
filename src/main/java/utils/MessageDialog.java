@@ -28,4 +28,23 @@ public class MessageDialog
     public static void showMessageCannotDecrypt(final JFrame jFrame) {
         JOptionPane.showMessageDialog(jFrame, "Kh\u00f4ng th\u1ec3 gi\u1ea3i m\u00e3");
     }
+    public static void showMessageValidateKeyVigen(final JFrame jFrame) {
+        JOptionPane.showMessageDialog(jFrame, "Key có chiều dài từ 1 - 100 ký tự nằm trong bảng mã \n'ABCDEFGHIJKLMNOPQRSTUVWXYZ'");
+    }
+    public static void showMessageValidateKeyHill(final JFrame jFrame) {
+        JOptionPane.showMessageDialog(jFrame, "Tạo key nhiều lần để có key thoã mãn điều kiện \n trong thuật toán Hill");
+    }
+    public static void showMessageValidateKeyDes(final JFrame jFrame) {
+        JOptionPane.showMessageDialog(jFrame, "Key có chiều dài 8 ký tự \nCó thể nhập key ở dạng String(8 ký tự) và Base64");
+    }
+    public static void showMessageValidateKeyAes(final JFrame jFrame) {
+        JOptionPane.showMessageDialog(jFrame, "Key có chiều dài 16/24/32 ký tự  \nCó thể nhập key ở dạng String(16/24/32 ký tự) hoặc Base64");
+    }
+    public static void showMessageValidateKeyTwoFish(final JFrame jFrame) {
+        JOptionPane.showMessageDialog(jFrame, "Key có chiều dài 16 ký tự  \nCó thể nhập key ở dạng String(16 ký tự)");
+    }
+    public static void showMessageValidateKeyBlowfish(final JFrame jFrame) {
+        JOptionPane.showMessageDialog(jFrame, "Key có chiều dài  ký tự 1 - 56 ký tự \nKey size là số nguyên dương từ 32 - 448 và là bội của 8 \nCó thể nhập key ở dạng String(16 ký tự) và Base64");
+    }
+
 }

@@ -37,6 +37,8 @@ public class WelcomeGUI extends JFrame implements ActionListener {
 		this.setFont(new Font("Arial", 0, 17));
 		this.setDefaultCloseOperation(3);
 		this.setBounds(100, 100, 1015, 560);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 		(this.contentPane = new JPanel()).setFont(new Font("iCielBC DDCHardwareRough Compressed", 0, 26));
 		this.contentPane.setBackground(new Color(255, 255, 255));
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

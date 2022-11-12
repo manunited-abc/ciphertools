@@ -26,12 +26,14 @@ import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
 import model.Alphabet;
+import utils.MessageDialog;
 import controller.AlphabetController;
 import controller.HashController;
 import controller.RSAController;
@@ -43,9 +45,15 @@ import controller.HillController;
 import controller.VegenereController;
 import controller.GeneralController;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
+import java.awt.event.ItemEvent;
 
-public class AlgorithmGUI extends JFrame implements ActionListener
+import javax.swing.JFrame;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
+
+public class AlgorithmGUI extends JFrame implements ActionListener, MouseListener
 {
     GeneralController generalController;
     VegenereController vegenereController;
@@ -172,8 +180,7 @@ public class AlgorithmGUI extends JFrame implements ActionListener
     private JButton btn_loadfile_sha;
     private JButton btn_hash_sha;
     private JButton btn_save_result_sha;
-    private JMenuItem mntmNewMenuItem;
-    private JMenuItem mntmNewMenuItem_1;
+    private JMenuItem mntmNewMenuItem_1,mntmNewMenuItem,mntmNewMenuItem_2;
     private JTabbedPane tabbedPane;
     private JRadioButton rabtn_file_des;
     private JRadioButton rabtn_text_des;
@@ -193,12 +200,15 @@ public class AlgorithmGUI extends JFrame implements ActionListener
     private JTextField textField_keySize_blowfish;
     private JTextField textField;
     private JTextArea textArea;
+    private JLabel lb_key_vigen,lb_key_hill,lb_key_des,lb_key_ase,lb_key_twofish,lb_key_blowfish,lb_publickey_rsa,lb_privatekey_rsa;
     
 //    public static void main(final String[] args) {
 //        EventQueue.invokeLater((Runnable)new AlgorithmGUI.AlgorithmGUI$1());
 //    }
     
     public AlgorithmGUI() {
+    	JFrame _this = this;
+    	
         this.alphabet = new Alphabet();
         this.alphabetController = new AlphabetController(this.alphabet);
         this.vegenereController = new VegenereController(this.alphabet);
@@ -215,18 +225,25 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.setDefaultCloseOperation(3);
         this.setBounds(100, 100, 1015, 588);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         final JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
         final JMenu mnNewMenu = new JMenu("File");
         menuBar.add(mnNewMenu);
+        
+        mntmNewMenuItem = new JMenuItem("Thoát");
+        mntmNewMenuItem.addActionListener(this);
+        mnNewMenu.add(mntmNewMenuItem);
         final JMenu mnNewMenu_1 = new JMenu("C\u00e0i \u0111\u1eb7t");
         menuBar.add(mnNewMenu_1);
-        (this.mntmNewMenuItem = new JMenuItem("B\u1ea3ng m\u00e3")).addActionListener(this);
-        mnNewMenu_1.add(this.mntmNewMenuItem);
         (this.mntmNewMenuItem_1 = new JMenuItem("Thu\u1eadt to\u00e1n \u0111\u1ed1i x\u1ee9ng")).addActionListener(this);
         mnNewMenu_1.add(this.mntmNewMenuItem_1);
         final JMenu mnNewMenu_2 = new JMenu("Tr\u1ee3 gi\u00fap");
         menuBar.add(mnNewMenu_2);
+        
+        mntmNewMenuItem_2 = new JMenuItem("Hướng dẫn");
+        mntmNewMenuItem_2.addActionListener(this);
+        mnNewMenu_2.add(mntmNewMenuItem_2);
         (this.contentPane = new JPanel()).setBackground(new Color(255, 255, 255));
         this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         this.setContentPane(this.contentPane);
@@ -271,12 +288,14 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         panel_11.setBounds(10, 56, 624, 36);
         panel_10.add(panel_11);
         panel_11.setLayout(null);
-        final JLabel lblNewLabel_1 = new JLabel("Key");
-        lblNewLabel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-        lblNewLabel_1.setHorizontalAlignment(0);
-        lblNewLabel_1.setFont(new Font("Segoe UI", 0, 16));
-        lblNewLabel_1.setBounds(0, 0, 76, 36);
-        panel_11.add(lblNewLabel_1);
+        lb_key_vigen = new JLabel("Key ?");
+        lb_key_vigen.addMouseListener(this);      
+        lb_key_vigen.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lb_key_vigen.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lb_key_vigen.setHorizontalAlignment(0);
+        lb_key_vigen.setFont(new Font("Segoe UI", 0, 16));
+        lb_key_vigen.setBounds(0, 0, 76, 36);
+        panel_11.add(lb_key_vigen);
         (this.textField_key_vegen = new JTextField()).setFont(new Font("Segoe UI", 0, 16));
         this.textField_key_vegen.setBounds(86, 0, 384, 36);
         panel_11.add(this.textField_key_vegen);
@@ -483,13 +502,25 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.textField_key_hill4.setColumns(10);
         this.textField_key_hill4.setBounds(279, 56, 155, 36);
         panel_10_1.add(this.textField_key_hill4);
-        final JLabel lblNewLabel_1_3 = new JLabel("Key");
-        lblNewLabel_1_3.setHorizontalAlignment(0);
-        lblNewLabel_1_3.setFont(new Font("Segoe UI", 0, 16));
-        lblNewLabel_1_3.setBorder(new LineBorder(new Color(0, 0, 0)));
-        lblNewLabel_1_3.setBounds(10, 39, 96, 32);
-        panel_10_1.add(lblNewLabel_1_3);
+        lb_key_hill = new JLabel("Key ?");
+        lb_key_hill.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lb_key_hill.addMouseListener(this);
+        lb_key_hill.setHorizontalAlignment(0);
+        lb_key_hill.setFont(new Font("Segoe UI", 0, 16));
+        lb_key_hill.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lb_key_hill.setBounds(10, 39, 96, 32);
+        panel_10_1.add(lb_key_hill);
         final JButton btn_remove_hill_key = new JButton("Xo\u00e1");
+        btn_remove_hill_key.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textField_key_hill1.setText("");
+				textField_key_hill2.setText("");
+				textField_key_hill3.setText("");
+				textField_key_hill4.setText("");
+				
+			}
+		});
       //  btn_remove_hill_key.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$7(this));
         btn_remove_hill_key.setForeground(Color.WHITE);
         btn_remove_hill_key.setFont(new Font("Segoe UI", 0, 16));
@@ -552,6 +583,11 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         scrollPane_4.setViewportView(this.textArea_decrypt_hill);
         panel_18.add(scrollPane_4);
         final JButton btn_remove_encrypt_hill = new JButton("Xo\u00e1");
+        btn_remove_encrypt_hill.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textArea_encrypt_hill.setText("");
+        	}
+        });
        // btn_remove_encrypt_hill.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$8(this));
         btn_remove_encrypt_hill.setForeground(Color.WHITE);
         btn_remove_encrypt_hill.setFont(new Font("Segoe UI", 0, 16));
@@ -559,6 +595,11 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         btn_remove_encrypt_hill.setBounds(10, 441, 67, 32);
         panel_17.add(btn_remove_encrypt_hill);
         final JButton btn_remove_decrypt_hill = new JButton("Xo\u00e1");
+        btn_remove_decrypt_hill.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textArea_decrypt_hill.setText("");
+        	}
+        });
      //   btn_remove_decrypt_hill.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$9(this));
         btn_remove_decrypt_hill.setForeground(Color.WHITE);
         btn_remove_decrypt_hill.setFont(new Font("Segoe UI", 0, 16));
@@ -575,6 +616,11 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         scrollPane_5.setViewportView(this.textArea_result_hill);
         panel_19.add(scrollPane_5);
         final JButton btn_remove_result_key = new JButton("Xo\u00e1");
+        btn_remove_result_key.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textArea_result_hill.setText("");
+        	}
+        });
        // btn_remove_result_key.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$10(this));
         btn_remove_result_key.setForeground(Color.WHITE);
         btn_remove_result_key.setFont(new Font("Segoe UI", 0, 16));
@@ -622,12 +668,14 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         panel_11_1.setLayout(null);
         panel_11_1.setBounds(10, 56, 624, 36);
         panel_10_2.add(panel_11_1);
-        final JLabel lblNewLabel_1_4 = new JLabel("Key");
-        lblNewLabel_1_4.setHorizontalAlignment(0);
-        lblNewLabel_1_4.setFont(new Font("Segoe UI", 0, 16));
-        lblNewLabel_1_4.setBorder(new LineBorder(new Color(0, 0, 0)));
-        lblNewLabel_1_4.setBounds(0, 0, 117, 36);
-        panel_11_1.add(lblNewLabel_1_4);
+        lb_key_des = new JLabel("Key ?");
+        lb_key_des.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lb_key_des.addMouseListener(this);
+        lb_key_des.setHorizontalAlignment(0);
+        lb_key_des.setFont(new Font("Segoe UI", 0, 16));
+        lb_key_des.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lb_key_des.setBounds(0, 0, 117, 36);
+        panel_11_1.add(lb_key_des);
         (this.textField_key_des = new JTextField()).setEnabled(false);
         this.textField_key_des.setFont(new Font("Segoe UI", 0, 16));
         this.textField_key_des.setColumns(10);
@@ -648,11 +696,28 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.btn_createKey_des.setBackground(new Color(0, 191, 255));
         this.btn_createKey_des.setBounds(490, 10, 144, 36);
         panel_10_2.add(this.btn_createKey_des);
-        (this.rd_type_key_des = new JRadioButton("Nh\u1eadp key")).addItemListener(null);
+        this.rd_type_key_des = new JRadioButton("Nh\u1eadp key");
+        rd_type_key_des.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		 if (rd_type_key_des.isSelected()) {
+        			  textField_key_des.setEnabled(true);
+        	            desController.setChooseTypeKey(true);
+        	        }
+        	        else {
+        	           textField_key_des.setEnabled(false);
+        	           desController.setChooseTypeKey(false);
+        	        }
+        	}
+        });
         this.rd_type_key_des.setFont(new Font("Segoe UI", 0, 16));
         this.rd_type_key_des.setBounds(306, 18, 101, 21);
         panel_10_2.add(this.rd_type_key_des);
         final JButton btn_remove_hill_key_1 = new JButton("Xo\u00e1");
+        btn_remove_hill_key_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textField_key_des.setText("");
+        	}
+        });
       //  btn_remove_hill_key_1.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$12(this));
         btn_remove_hill_key_1.setForeground(Color.WHITE);
         btn_remove_hill_key_1.setFont(new Font("Segoe UI", 0, 16));
@@ -740,6 +805,16 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         scrollPane_7.setViewportView(this.textArea_result_des);
         panel_24.add(scrollPane_7);
         (this.rabtn_text_des = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 text")).setBackground(Color.WHITE);
+        rabtn_text_des.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				desController.setIsCipherText(true);
+				btn_loadFile_encrypt_des.setEnabled(false);
+				btn_loadFile_decrypt_des.setEnabled(false);
+				
+			}
+        });
         this.rabtn_text_des.setBounds(273, 18, 171, 21);
         panel_21.add(this.rabtn_text_des);
         this.rabtn_text_des.setSelected(true);
@@ -747,26 +822,54 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.rabtn_text_des.setFont(new Font("Segoe UI", 0, 16));
         bg.add(this.rabtn_text_des);
         (this.rabtn_file_des = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 file")).setBackground(Color.WHITE);
+        rabtn_file_des.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				desController.setIsCipherText(false);
+				btn_loadFile_encrypt_des.setEnabled(true);
+				btn_loadFile_decrypt_des.setEnabled(true);
+			}
+        });
         this.rabtn_file_des.setBounds(483, 18, 171, 21);
         panel_21.add(this.rabtn_file_des);
         this.rabtn_file_des.addItemListener(null);
         this.rabtn_file_des.setFont(new Font("Segoe UI", 0, 16));
         bg.add(this.rabtn_file_des);
         final JButton btn_remove_hill_key_2 = new JButton("Xo\u00e1");
-        btn_remove_hill_key_2.addActionListener(null);
+        btn_remove_hill_key_2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_encrypt_des.setText("");
+				
+			}
+		});
         btn_remove_hill_key_2.setForeground(Color.WHITE);
         btn_remove_hill_key_2.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2.setBackground(Color.RED);
         btn_remove_hill_key_2.setBounds(10, 441, 67, 32);
         panel_21.add(btn_remove_hill_key_2);
         final JButton btn_remove_hill_key_2_1 = new JButton("Xo\u00e1");
-        btn_remove_hill_key_2_1.addActionListener(null);
+        btn_remove_hill_key_2_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_decrypt_des.setText("");
+				
+			}
+		});
         btn_remove_hill_key_2_1.setForeground(Color.WHITE);
         btn_remove_hill_key_2_1.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_1.setBackground(Color.RED);
         btn_remove_hill_key_2_1.setBounds(343, 441, 67, 32);
         panel_21.add(btn_remove_hill_key_2_1);
         final JButton btn_remove_hill_key_2_2 = new JButton("Xo\u00e1");
+        btn_remove_hill_key_2_2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textArea_result_des.setText("");
+        	}
+        });
      //   btn_remove_hill_key_2_2.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$17(this));
         btn_remove_hill_key_2_2.setForeground(Color.WHITE);
         btn_remove_hill_key_2_2.setFont(new Font("Segoe UI", 0, 16));
@@ -803,12 +906,14 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         panel_11_1_1.setLayout(null);
         panel_11_1_1.setBounds(10, 56, 624, 36);
         panel_10_2_1.add(panel_11_1_1);
-        final JLabel lblNewLabel_1_4_1 = new JLabel("Key");
-        lblNewLabel_1_4_1.setHorizontalAlignment(0);
-        lblNewLabel_1_4_1.setFont(new Font("Segoe UI", 0, 16));
-        lblNewLabel_1_4_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-        lblNewLabel_1_4_1.setBounds(0, 0, 93, 36);
-        panel_11_1_1.add(lblNewLabel_1_4_1);
+        lb_key_ase = new JLabel("Key ?");
+        lb_key_ase.addMouseListener(this);
+        lb_key_ase.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lb_key_ase.setHorizontalAlignment(0);
+        lb_key_ase.setFont(new Font("Segoe UI", 0, 16));
+        lb_key_ase.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lb_key_ase.setBounds(0, 0, 93, 36);
+        panel_11_1_1.add(lb_key_ase);
         (this.textField_key_aes = new JTextField()).setFont(new Font("Segoe UI", 0, 16));
         this.textField_key_aes.setEnabled(false);
         this.textField_key_aes.setColumns(10);
@@ -829,11 +934,28 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.btn_createKey_aes.setBackground(new Color(0, 191, 255));
         this.btn_createKey_aes.setBounds(490, 10, 144, 36);
         panel_10_2_1.add(this.btn_createKey_aes);
-        (this.rd_type_key_aes = new JRadioButton("Nh\u1eadp key")).addItemListener(null);
+        this.rd_type_key_aes = new JRadioButton("Nh\u1eadp key");
+        rd_type_key_aes.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		 if (rd_type_key_aes.isSelected()) {
+          			  textField_key_aes.setEnabled(true);
+          	            aesController.setChooseTypeKey(true);
+          	        }
+          	        else {
+          	           textField_key_aes.setEnabled(false);
+          	           aesController.setChooseTypeKey(false);
+          	        }
+        	}
+        });
         this.rd_type_key_aes.setFont(new Font("Segoe UI", 0, 16));
         this.rd_type_key_aes.setBounds(316, 18, 91, 21);
         panel_10_2_1.add(this.rd_type_key_aes);
         final JButton btn_remove_hill_key_1_1 = new JButton("Xo\u00e1");
+        btn_remove_hill_key_1_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textField_key_aes.setText("");
+        	}
+        });
       //  btn_remove_hill_key_1_1.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$19(this));
         btn_remove_hill_key_1_1.setForeground(Color.WHITE);
         btn_remove_hill_key_1_1.setFont(new Font("Segoe UI", 0, 16));
@@ -918,6 +1040,13 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         (this.textArea_result_aes = new JTextArea()).setFont(new Font("Segoe UI", 0, 16));
         scrollPane_10.setViewportView(this.textArea_result_aes);
         final JRadioButton rabtn_text_aes = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 text");
+        rabtn_text_aes.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		aesController.setIsCipherText(true);
+        		btn_loadFile_encrypt_aes.setEnabled(false);
+				btn_loadFile_decrypt_aes.setEnabled(false);
+        	}
+        });
       //  rabtn_text_aes.addItemListener((ItemListener)new AlgorithmGUI.AlgorithmGUI$20(this));
         rabtn_text_aes.setSelected(true);
         rabtn_text_aes.setFont(new Font("Segoe UI", 0, 16));
@@ -925,6 +1054,13 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         rabtn_text_aes.setBounds(273, 18, 171, 21);
         panel_14_1.add(rabtn_text_aes);
         final JRadioButton rabtn_file_aes = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 file");
+        rabtn_file_aes.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		aesController.setIsCipherText(false);
+        		btn_loadFile_encrypt_aes.setEnabled(true);
+				btn_loadFile_decrypt_aes.setEnabled(true);
+        	}
+        });
         //rabtn_file_aes.addItemListener((ItemListener)new AlgorithmGUI.AlgorithmGUI$21(this));
         rabtn_file_aes.setFont(new Font("Segoe UI", 0, 16));
         rabtn_file_aes.setBackground(Color.WHITE);
@@ -934,21 +1070,43 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         bg2.add(rabtn_text_aes);
         bg2.add(rabtn_file_aes);
         final JButton btn_remove_hill_key_2_3 = new JButton("Xo\u00e1");
-     //   btn_remove_hill_key_2_3.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$22(this));
+        btn_remove_hill_key_2_3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_encrypt_aes.setText("");
+				
+			}
+		}
+        );
         btn_remove_hill_key_2_3.setForeground(Color.WHITE);
         btn_remove_hill_key_2_3.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_3.setBackground(Color.RED);
         btn_remove_hill_key_2_3.setBounds(10, 441, 67, 32);
         panel_14_1.add(btn_remove_hill_key_2_3);
         final JButton btn_remove_hill_key_2_1_1 = new JButton("Xo\u00e1");
-      // btn_remove_hill_key_2_1_1.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$23(this));
+        btn_remove_hill_key_2_1_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_decrypt_aes.setText("");
+				
+			}
+		});
         btn_remove_hill_key_2_1_1.setForeground(Color.WHITE);
         btn_remove_hill_key_2_1_1.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_1_1.setBackground(Color.RED);
         btn_remove_hill_key_2_1_1.setBounds(343, 441, 67, 32);
         panel_14_1.add(btn_remove_hill_key_2_1_1);
         final JButton btn_remove_hill_key_2_2_1 = new JButton("Xo\u00e1");
-    //    btn_remove_hill_key_2_2_1.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$24(this));
+        btn_remove_hill_key_2_2_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_result_aes.setText("");
+				
+			}
+		});
         btn_remove_hill_key_2_2_1.setForeground(Color.WHITE);
         btn_remove_hill_key_2_2_1.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_2_1.setBackground(Color.RED);
@@ -984,12 +1142,14 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         panel_11_1_1_2.setLayout(null);
         panel_11_1_1_2.setBounds(10, 56, 624, 36);
         panel_10_2_1_2.add(panel_11_1_1_2);
-        final JLabel lblNewLabel_1_4_1_4 = new JLabel("Key");
-        lblNewLabel_1_4_1_4.setHorizontalAlignment(0);
-        lblNewLabel_1_4_1_4.setFont(new Font("Segoe UI", 0, 16));
-        lblNewLabel_1_4_1_4.setBorder(new LineBorder(new Color(0, 0, 0)));
-        lblNewLabel_1_4_1_4.setBounds(0, 0, 106, 36);
-        panel_11_1_1_2.add(lblNewLabel_1_4_1_4);
+        lb_key_twofish = new JLabel("Key ?");
+        lb_key_twofish.addMouseListener(this);
+        lb_key_twofish.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lb_key_twofish.setHorizontalAlignment(0);
+        lb_key_twofish.setFont(new Font("Segoe UI", 0, 16));
+        lb_key_twofish.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lb_key_twofish.setBounds(0, 0, 106, 36);
+        panel_11_1_1_2.add(lb_key_twofish);
         (this.textField_key_twofish = new JTextField()).setFont(new Font("Segoe UI", 0, 16));
         this.textField_key_twofish.setEnabled(false);
         this.textField_key_twofish.setColumns(10);
@@ -1010,11 +1170,28 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.btn_createKey_twofish.setBackground(new Color(0, 191, 255));
         this.btn_createKey_twofish.setBounds(490, 10, 144, 36);
         panel_10_2_1_2.add(this.btn_createKey_twofish);
-        (this.rd_type_key_twofish = new JRadioButton("Nh\u1eadp key")).addItemListener(null);
+        this.rd_type_key_twofish = new JRadioButton("Nh\u1eadp key");
+        rd_type_key_twofish.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		if(rd_type_key_twofish.isSelected()) {
+        			textField_key_twofish.setEnabled(true);
+        			twofishController.setChooseTypeKey(true);
+        		}else {
+        			textField_key_twofish.setEnabled(false);
+        			twofishController.setChooseTypeKey(false);
+        		}
+        		
+        	}
+        });
         this.rd_type_key_twofish.setFont(new Font("Segoe UI", 0, 16));
         this.rd_type_key_twofish.setBounds(303, 18, 104, 21);
         panel_10_2_1_2.add(this.rd_type_key_twofish);
         final JButton btn_remove_hill_key_1_1_2 = new JButton("Xo\u00e1");
+        btn_remove_hill_key_1_1_2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textField_key_twofish.setText("");
+        	}
+        });
       //  btn_remove_hill_key_1_1_2.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$26(this));
         btn_remove_hill_key_1_1_2.setForeground(Color.WHITE);
         btn_remove_hill_key_1_1_2.setFont(new Font("Segoe UI", 0, 16));
@@ -1102,6 +1279,13 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         (this.textArea_result_twofish = new JTextArea()).setFont(new Font("Segoe UI", 0, 16));
         scrollPane_13.setViewportView(this.textArea_result_twofish);
         final JRadioButton rabtn_text_twofish = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 text");
+        rabtn_text_twofish.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		twofishController.setIsCipherText(true);
+        		btn_loadFile_encrypt_twofish.setEnabled(false);
+				btn_loadFile_decrypt_twofish.setEnabled(false);
+        	}
+        });
      //   rabtn_text_twofish.addItemListener((ItemListener)new AlgorithmGUI.AlgorithmGUI$27(this));
         rabtn_text_twofish.setSelected(true);
         rabtn_text_twofish.setFont(new Font("Segoe UI", 0, 16));
@@ -1109,6 +1293,13 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         rabtn_text_twofish.setBounds(273, 18, 171, 21);
         panel_14_1_2.add(rabtn_text_twofish);
         final JRadioButton rabtn_file_twofish = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 file");
+        rabtn_file_twofish.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		twofishController.setIsCipherText(false);
+        		btn_loadFile_encrypt_twofish.setEnabled(true);
+				btn_loadFile_decrypt_twofish.setEnabled(true);
+        	}
+        });
        // rabtn_file_twofish.addItemListener((ItemListener)new AlgorithmGUI.AlgorithmGUI$28(this));
         rabtn_file_twofish.setFont(new Font("Segoe UI", 0, 16));
         rabtn_file_twofish.setBackground(Color.WHITE);
@@ -1118,21 +1309,42 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         bg_4.add(rabtn_file_twofish);
         bg_4.add(rabtn_text_twofish);
         final JButton btn_remove_hill_key_2_3_2 = new JButton("Xo\u00e1");
-      //  btn_remove_hill_key_2_3_2.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$29(this));
+        btn_remove_hill_key_2_3_2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				textArea_encrypt_twofish.setText("");
+			}
+		});
         btn_remove_hill_key_2_3_2.setForeground(Color.WHITE);
         btn_remove_hill_key_2_3_2.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_3_2.setBackground(Color.RED);
         btn_remove_hill_key_2_3_2.setBounds(10, 441, 67, 32);
         panel_14_1_2.add(btn_remove_hill_key_2_3_2);
         final JButton btn_remove_hill_key_2_1_1_2 = new JButton("Xo\u00e1");
-      //  btn_remove_hill_key_2_1_1_2.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$30(this));
+        btn_remove_hill_key_2_1_1_2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				textArea_decrypt_twofish.setText("");
+			}
+		});
         btn_remove_hill_key_2_1_1_2.setForeground(Color.WHITE);
         btn_remove_hill_key_2_1_1_2.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_1_1_2.setBackground(Color.RED);
         btn_remove_hill_key_2_1_1_2.setBounds(343, 441, 67, 32);
         panel_14_1_2.add(btn_remove_hill_key_2_1_1_2);
         final JButton btn_remove_hill_key_2_2_1_2 = new JButton("Xo\u00e1");
-      //  btn_remove_hill_key_2_2_1_2.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$31(this));
+        btn_remove_hill_key_2_2_1_2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				textArea_result_twofish.setText("");
+			}
+		});
         btn_remove_hill_key_2_2_1_2.setForeground(Color.WHITE);
         btn_remove_hill_key_2_2_1_2.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_2_1_2.setBackground(Color.RED);
@@ -1168,12 +1380,14 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         panel_11_1_1_3.setLayout(null);
         panel_11_1_1_3.setBounds(10, 56, 624, 36);
         panel_10_2_1_3.add(panel_11_1_1_3);
-        final JLabel lblNewLabel_1_4_1_5 = new JLabel("Key");
-        lblNewLabel_1_4_1_5.setHorizontalAlignment(0);
-        lblNewLabel_1_4_1_5.setFont(new Font("Segoe UI", 0, 16));
-        lblNewLabel_1_4_1_5.setBorder(new LineBorder(new Color(0, 0, 0)));
-        lblNewLabel_1_4_1_5.setBounds(0, 0, 113, 36);
-        panel_11_1_1_3.add(lblNewLabel_1_4_1_5);
+        lb_key_blowfish = new JLabel("Key ?");
+        lb_key_blowfish.addMouseListener(this);
+        lb_key_blowfish.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lb_key_blowfish.setHorizontalAlignment(0);
+        lb_key_blowfish.setFont(new Font("Segoe UI", 0, 16));
+        lb_key_blowfish.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lb_key_blowfish.setBounds(0, 0, 113, 36);
+        panel_11_1_1_3.add(lb_key_blowfish);
         (this.textField_key_blowfish = new JTextField()).setFont(new Font("Segoe UI", 0, 16));
         this.textField_key_blowfish.setEnabled(false);
         this.textField_key_blowfish.setColumns(10);
@@ -1194,11 +1408,27 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.btn_createKey_blowfish.setBackground(new Color(0, 191, 255));
         this.btn_createKey_blowfish.setBounds(490, 10, 144, 36);
         panel_10_2_1_3.add(this.btn_createKey_blowfish);
-        (this.rd_type_key_blowfish = new JRadioButton("Nh\u1eadp key")).addItemListener(null);
+        this.rd_type_key_blowfish = new JRadioButton("Nh\u1eadp key");
+        rd_type_key_blowfish.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		if(rd_type_key_blowfish.isSelected()) {
+        			textField_key_blowfish.setEnabled(true);
+        			blowfishController.setChooseTypeKey(true);
+        		}else {
+        			textField_key_blowfish.setEnabled(false);
+        			blowfishController.setChooseTypeKey(false);
+        		}
+        	}
+        });
         this.rd_type_key_blowfish.setFont(new Font("Segoe UI", 0, 16));
         this.rd_type_key_blowfish.setBounds(299, 18, 102, 21);
         panel_10_2_1_3.add(this.rd_type_key_blowfish);
         final JButton btn_remove_hill_key_1_1_3 = new JButton("Xo\u00e1");
+        btn_remove_hill_key_1_1_3.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textField_key_blowfish.setText("");
+        	}
+        });
        // btn_remove_hill_key_1_1_3.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$33(this));
         btn_remove_hill_key_1_1_3.setForeground(Color.WHITE);
         btn_remove_hill_key_1_1_3.setFont(new Font("Segoe UI", 0, 16));
@@ -1285,6 +1515,13 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         (this.textArea_result_blowfish = new JTextArea()).setFont(new Font("Segoe UI", 0, 16));
         scrollPane_16.setViewportView(this.textArea_result_blowfish);
         final JRadioButton rabtn_text_blowfish = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 text");
+        rabtn_text_blowfish.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		blowfishController.setIsCipherText(true);
+        		btn_loadFile_encrypt_blowfish.setEnabled(false);
+				btn_loadFile_decrypt_blowfish.setEnabled(false);
+        	}
+        });
     //    rabtn_text_blowfish.addItemListener((ItemListener)new AlgorithmGUI.AlgorithmGUI$34(this));
         rabtn_text_blowfish.setSelected(true);
         rabtn_text_blowfish.setFont(new Font("Segoe UI", 0, 16));
@@ -1292,6 +1529,13 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         rabtn_text_blowfish.setBounds(273, 18, 171, 21);
         panel_14_1_3.add(rabtn_text_blowfish);
         final JRadioButton rabtn_file_blowfish = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 file");
+        rabtn_file_blowfish.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		blowfishController.setIsCipherText(false);
+        		btn_loadFile_encrypt_blowfish.setEnabled(true);
+				btn_loadFile_decrypt_blowfish.setEnabled(true);
+        	}
+        });
       //  rabtn_file_blowfish.addItemListener((ItemListener)new AlgorithmGUI.AlgorithmGUI$35(this));
         final ButtonGroup bg3 = new ButtonGroup();
         bg3.add(rabtn_text_blowfish);
@@ -1301,28 +1545,49 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         rabtn_file_blowfish.setBounds(483, 18, 171, 21);
         panel_14_1_3.add(rabtn_file_blowfish);
         final JButton btn_remove_hill_key_2_3_3 = new JButton("Xo\u00e1");
-      //  btn_remove_hill_key_2_3_3.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$36(this));
+        btn_remove_hill_key_2_3_3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_encrypt_blowfish.setText("");
+				
+			}
+		});
         btn_remove_hill_key_2_3_3.setForeground(Color.WHITE);
         btn_remove_hill_key_2_3_3.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_3_3.setBackground(Color.RED);
         btn_remove_hill_key_2_3_3.setBounds(10, 441, 67, 32);
         panel_14_1_3.add(btn_remove_hill_key_2_3_3);
         final JButton btn_remove_hill_key_2_1_1_3 = new JButton("Xo\u00e1");
-     //   btn_remove_hill_key_2_1_1_3.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$37(this));
+        btn_remove_hill_key_2_1_1_3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_decrypt_blowfish.setText("");
+				
+			}
+		});
         btn_remove_hill_key_2_1_1_3.setForeground(Color.WHITE);
         btn_remove_hill_key_2_1_1_3.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_1_1_3.setBackground(Color.RED);
         btn_remove_hill_key_2_1_1_3.setBounds(343, 441, 67, 32);
         panel_14_1_3.add(btn_remove_hill_key_2_1_1_3);
         final JButton btn_remove_hill_key_2_2_1_3 = new JButton("Xo\u00e1");
-     //   btn_remove_hill_key_2_2_1_3.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$38(this));
+        btn_remove_hill_key_2_2_1_3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_result_blowfish.setText("");
+				
+			}
+		});
         btn_remove_hill_key_2_2_1_3.setForeground(Color.WHITE);
         btn_remove_hill_key_2_2_1_3.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_2_1_3.setBackground(Color.RED);
         btn_remove_hill_key_2_2_1_3.setBounds(664, 441, 67, 32);
         panel_14_1_3.add(btn_remove_hill_key_2_2_1_3);
         final JPanel panel_28 = new JPanel();
-        this.tabbedPane.addTab("RAS", null, panel_28, null);
+        this.tabbedPane.addTab("RSA", null, panel_28, null);
         panel_28.setLayout(null);
         final JPanel panel_29 = new JPanel();
         panel_29.setLayout(null);
@@ -1351,12 +1616,13 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         panel_11_2.setLayout(null);
         panel_11_2.setBounds(10, 46, 624, 28);
         panel_10_3.add(panel_11_2);
-        final JLabel lblNewLabel_1_5 = new JLabel("Priavte key");
-        lblNewLabel_1_5.setHorizontalAlignment(0);
-        lblNewLabel_1_5.setFont(new Font("Segoe UI", 0, 16));
-        lblNewLabel_1_5.setBorder(new LineBorder(new Color(0, 0, 0)));
-        lblNewLabel_1_5.setBounds(0, 0, 90, 28);
-        panel_11_2.add(lblNewLabel_1_5);
+        lb_privatekey_rsa = new JLabel("Priavte key ?");
+        lb_privatekey_rsa.addMouseListener(this);
+        lb_privatekey_rsa.setHorizontalAlignment(0);
+        lb_privatekey_rsa.setFont(new Font("Segoe UI", 0, 16));
+        lb_privatekey_rsa.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lb_privatekey_rsa.setBounds(0, 0, 90, 28);
+        panel_11_2.add(lb_privatekey_rsa);
         (this.textField_privatekey_rsa = new JTextField()).setEnabled(false);
         this.textField_privatekey_rsa.setFont(new Font("Segoe UI", 0, 16));
         this.textField_privatekey_rsa.setColumns(10);
@@ -1387,12 +1653,13 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         panel_11_5_1.setLayout(null);
         panel_11_5_1.setBounds(10, 84, 624, 28);
         panel_10_3.add(panel_11_5_1);
-        final JLabel lblNewLabel_1_8_1 = new JLabel("Public key");
-        lblNewLabel_1_8_1.setHorizontalAlignment(0);
-        lblNewLabel_1_8_1.setFont(new Font("Segoe UI", 0, 16));
-        lblNewLabel_1_8_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-        lblNewLabel_1_8_1.setBounds(0, 0, 90, 28);
-        panel_11_5_1.add(lblNewLabel_1_8_1);
+        lb_publickey_rsa = new JLabel("Public key ?");
+        lb_publickey_rsa.addMouseListener(this);
+        lb_publickey_rsa.setHorizontalAlignment(0);
+        lb_publickey_rsa.setFont(new Font("Segoe UI", 0, 16));
+        lb_publickey_rsa.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lb_publickey_rsa.setBounds(0, 0, 90, 28);
+        panel_11_5_1.add(lb_publickey_rsa);
         (this.textField_publickey_rsa = new JTextField()).setEnabled(false);
         this.textField_publickey_rsa.setFont(new Font("Segoe UI", 0, 16));
         this.textField_publickey_rsa.setColumns(10);
@@ -1412,6 +1679,15 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.comboBox_rsa.setBounds(109, 10, 158, 26);
         panel_10_3.add(this.comboBox_rsa);
         final JRadioButton rabtn_text_rsa = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 text");
+        (this.btn_loadFile_encrypt_rsa = new JButton("T\u1ea3i")).addActionListener(this);
+        (this.btn_loadFile_decrypt_rsa = new JButton("T\u1ea3i")).addActionListener(this);
+        rabtn_text_rsa.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		rsaController.setIsCipherText(true);
+        		btn_loadFile_encrypt_rsa.setEnabled(false);
+				btn_loadFile_decrypt_rsa.setEnabled(false);
+        	}
+        });
       //  rabtn_text_rsa.addItemListener((ItemListener)new AlgorithmGUI.AlgorithmGUI$39(this));
         rabtn_text_rsa.setSelected(true);
         rabtn_text_rsa.setFont(new Font("Segoe UI", 0, 16));
@@ -1419,6 +1695,13 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         rabtn_text_rsa.setBounds(277, 21, 171, 21);
         panel_29.add(rabtn_text_rsa);
         final JRadioButton rabtn_file_rsa = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 file");
+        rabtn_file_rsa.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		rsaController.setIsCipherText(false);
+        		btn_loadFile_encrypt_rsa.setEnabled(true);
+				btn_loadFile_decrypt_rsa.setEnabled(true);
+        	}
+        });
        // rabtn_file_rsa.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$40(this));
         rabtn_file_rsa.setFont(new Font("Segoe UI", 0, 16));
         rabtn_file_rsa.setBackground(Color.WHITE);
@@ -1437,7 +1720,7 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.lb_filename_encrypt_rsa.setBorder(new LineBorder(new Color(0, 0, 0)));
         this.lb_filename_encrypt_rsa.setBounds(0, 0, 241, 33);
         panel_12_1_1_1_1.add(this.lb_filename_encrypt_rsa);
-        (this.btn_loadFile_encrypt_rsa = new JButton("T\u1ea3i")).addActionListener(this);
+       
         this.btn_loadFile_encrypt_rsa.setFont(new Font("Segoe UI", 0, 16));
         this.btn_loadFile_encrypt_rsa.setBackground(new Color(0, 191, 255));
         this.btn_loadFile_encrypt_rsa.setBounds(241, 0, 70, 33);
@@ -1460,7 +1743,7 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.lb_filename_decrypt_rsa.setBorder(new LineBorder(new Color(0, 0, 0)));
         this.lb_filename_decrypt_rsa.setBounds(0, 0, 241, 33);
         panel_12_1_1_1_2.add(this.lb_filename_decrypt_rsa);
-        (this.btn_loadFile_decrypt_rsa = new JButton("T\u1ea3i")).addActionListener(this);
+       
         this.btn_loadFile_decrypt_rsa.setFont(new Font("Segoe UI", 0, 16));
         this.btn_loadFile_decrypt_rsa.setBackground(new Color(0, 191, 255));
         this.btn_loadFile_decrypt_rsa.setBounds(241, 0, 70, 33);
@@ -1474,6 +1757,11 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         (this.textArea_decrypt_rsa = new JTextArea()).setFont(new Font("Segoe UI", 0, 16));
         scrollPane_18.setViewportView(this.textArea_decrypt_rsa);
         final JButton btn_remove_hill_key_2_3_1_1 = new JButton("Xo\u00e1");
+        btn_remove_hill_key_2_3_1_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textArea_encrypt_rsa.setText("");
+        	}
+        });
     //    btn_remove_hill_key_2_3_1_1.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$41(this));
         btn_remove_hill_key_2_3_1_1.setForeground(Color.WHITE);
         btn_remove_hill_key_2_3_1_1.setFont(new Font("Segoe UI", 0, 16));
@@ -1486,7 +1774,14 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.btn_encrypt_rsa.setBounds(85, 441, 236, 32);
         panel_29.add(this.btn_encrypt_rsa);
         final JButton btn_remove_hill_key_2_3_1_2 = new JButton("Xo\u00e1");
-    //    btn_remove_hill_key_2_3_1_2.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$42(this));
+        btn_remove_hill_key_2_3_1_2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_decrypt_rsa.setText("");
+				
+			}
+		});
         btn_remove_hill_key_2_3_1_2.setForeground(Color.WHITE);
         btn_remove_hill_key_2_3_1_2.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_3_1_2.setBackground(Color.RED);
@@ -1506,7 +1801,14 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         (this.textArea_result_rsa = new JTextArea()).setFont(new Font("Segoe UI", 0, 16));
         scrollPane_19.setViewportView(this.textArea_result_rsa);
         final JButton btn_remove_hill_key_2_3_1_2_1 = new JButton("Xo\u00e1");
-  //      btn_remove_hill_key_2_3_1_2_1.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$43(this));
+        btn_remove_hill_key_2_3_1_2_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_result_rsa.setText("");
+				
+			}
+		});
         btn_remove_hill_key_2_3_1_2_1.setForeground(Color.WHITE);
         btn_remove_hill_key_2_3_1_2_1.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_2_3_1_2_1.setBackground(Color.RED);
@@ -1561,13 +1863,26 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.btn_hash_sha.setBackground(new Color(0, 191, 255));
         this.btn_hash_sha.setBounds(87, 441, 348, 32);
         panel_19_1.add(this.btn_hash_sha);
-        (this.rabtn_text_sha = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 text")).addItemListener(null);
+        this.rabtn_text_sha = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 text");
+        rabtn_text_sha.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		hashController.setHashTextSha(true);
+        		btn_loadfile_sha.setEnabled(false);
+			
+        	}
+        });
         this.rabtn_text_sha.setSelected(true);
         this.rabtn_text_sha.setFont(new Font("Segoe UI", 0, 16));
         this.rabtn_text_sha.setBackground(Color.WHITE);
         this.rabtn_text_sha.setBounds(486, 10, 171, 21);
         panel_19_1.add(this.rabtn_text_sha);
-        (this.rabtn_file_sha = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 file")).addItemListener(null);
+        this.rabtn_file_sha = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 file");
+        rabtn_file_sha.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		hashController.setHashTextSha(false);
+        		btn_loadfile_sha.setEnabled(true);
+        	}
+        });
         this.rabtn_file_sha.setFont(new Font("Segoe UI", 0, 16));
         this.rabtn_file_sha.setBackground(Color.WHITE);
         this.rabtn_file_sha.setBounds(696, 10, 171, 21);
@@ -1589,6 +1904,11 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.comboBox_sha.setBounds(122, 10, 102, 32);
         panel_19_1.add(this.comboBox_sha);
         final JButton btn_remove_hill_key_1_2 = new JButton("Xo\u00e1");
+        btn_remove_hill_key_1_2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textArea_result_sha.setText("");
+        	}
+        });
       //  btn_remove_hill_key_1_2.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$46(this));
         btn_remove_hill_key_1_2.setForeground(Color.WHITE);
         btn_remove_hill_key_1_2.setFont(new Font("Segoe UI", 0, 16));
@@ -1596,7 +1916,12 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         btn_remove_hill_key_1_2.setBounds(469, 439, 67, 36);
         panel_19_1.add(btn_remove_hill_key_1_2);
         final JButton btn_remove_hill_key_1_3 = new JButton("Xo\u00e1");
-       // btn_remove_hill_key_1_3.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$47(this));
+        btn_remove_hill_key_1_3.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textArea_hash_sha.setText("");
+        	}
+        });
+       
         btn_remove_hill_key_1_3.setForeground(Color.WHITE);
         btn_remove_hill_key_1_3.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_1_3.setBackground(Color.RED);
@@ -1651,13 +1976,25 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.btn_hash_md5.setBackground(new Color(0, 191, 255));
         this.btn_hash_md5.setBounds(87, 441, 348, 32);
         panel_32.add(this.btn_hash_md5);
-        (this.rabtn_text_md5 = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 text")).addItemListener(null);
+        this.rabtn_text_md5 = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 text");
+        rabtn_text_md5.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		hashController.setHashTextMd5(true);
+        		btn_loadfile_md5.setEnabled(false);
+        	}
+        });
         this.rabtn_text_md5.setSelected(true);
         this.rabtn_text_md5.setFont(new Font("Segoe UI", 0, 16));
         this.rabtn_text_md5.setBackground(Color.WHITE);
         this.rabtn_text_md5.setBounds(486, 10, 171, 21);
         panel_32.add(this.rabtn_text_md5);
-        (this.rabtn_file_md5 = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 file")).addItemListener(null);
+        this.rabtn_file_md5 = new JRadioButton("M\u00e3 ho\u00e1 /Gi\u1ea3i m\u00e3 file");
+        rabtn_file_md5.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		hashController.setHashTextMd5(false);
+        		btn_loadfile_md5.setEnabled(true);
+        	}
+        });
         this.rabtn_file_md5.setFont(new Font("Segoe UI", 0, 16));
         this.rabtn_file_md5.setBackground(Color.WHITE);
         this.rabtn_file_md5.setBounds(696, 10, 171, 21);
@@ -1676,13 +2013,25 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         this.textArea_result_md5.setFont(new Font("Segoe UI", 0, 16));
         scrollPane_23.setViewportView(this.textArea_result_md5);
         final JButton btn_remove_hill_key_1_4 = new JButton("Xo\u00e1");
-      //  btn_remove_hill_key_1_4.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$50(this));
+        btn_remove_hill_key_1_4.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textArea_result_md5.setText("");
+				
+			}
+		});
         btn_remove_hill_key_1_4.setForeground(Color.WHITE);
         btn_remove_hill_key_1_4.setFont(new Font("Segoe UI", 0, 16));
         btn_remove_hill_key_1_4.setBackground(Color.RED);
         btn_remove_hill_key_1_4.setBounds(469, 439, 67, 36);
         panel_32.add(btn_remove_hill_key_1_4);
         final JButton btn_remove_hill_key_1_5 = new JButton("Xo\u00e1");
+        btn_remove_hill_key_1_5.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		textArea_hash_md5.setText("");
+        	}
+        });
       //  btn_remove_hill_key_1_5.addActionListener((ActionListener)new AlgorithmGUI.AlgorithmGUI$51(this));
         btn_remove_hill_key_1_5.setForeground(Color.WHITE);
         btn_remove_hill_key_1_5.setFont(new Font("Segoe UI", 0, 16));
@@ -1701,7 +2050,7 @@ public class AlgorithmGUI extends JFrame implements ActionListener
     @Override
     public void actionPerformed(final ActionEvent e) {
         this.handleVegenere(e);
-        this.handleAlphabet(e);
+        this.handleMenu(e);
         this.handleHill(e);
         this.handleDes(e);
         this.handleAes(e);
@@ -2063,13 +2412,17 @@ public class AlgorithmGUI extends JFrame implements ActionListener
         }
     }
     
-    public void handleAlphabet(final ActionEvent e) {
-        if (e.getSource() == this.mntmNewMenuItem) {
-            new AlphabetGUI(this.alphabetController, this.alphabet).setVisible(true);
-        }
+    public void handleMenu(final ActionEvent e) {  
         if (e.getSource() == this.mntmNewMenuItem_1) {
             new SymmetryCipherChangeGUI(this.rsaController).setVisible(true);
         }
+        if (e.getSource() == this.mntmNewMenuItem) {
+        		this.dispose();
+        		new WelcomeGUI().setVisible(true);
+        }
+        if (e.getSource() == this.mntmNewMenuItem_2) {
+    		new GuideGUI().setVisible(true);
+    }
     }
     
     public void hanlderTab() {
@@ -2085,4 +2438,53 @@ public class AlgorithmGUI extends JFrame implements ActionListener
             }
         }
     }
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getSource() ==lb_key_vigen) {
+			MessageDialog.showMessageValidateKeyVigen(this);
+		}
+		if(e.getSource() ==lb_key_hill) {
+			MessageDialog.showMessageValidateKeyHill(this);
+		}
+		if(e.getSource() ==lb_key_des) {
+			MessageDialog.showMessageValidateKeyDes(this);
+		}
+		if(e.getSource() ==lb_key_ase) {
+			MessageDialog.showMessageValidateKeyAes(this);
+		}
+		if(e.getSource() ==lb_key_twofish) {
+			MessageDialog.showMessageValidateKeyTwoFish(null);
+		}
+		if(e.getSource() ==lb_key_blowfish) {
+			MessageDialog.showMessageValidateKeyBlowfish(this);
+		}
+		
+		
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
