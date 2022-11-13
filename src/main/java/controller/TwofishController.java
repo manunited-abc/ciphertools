@@ -9,6 +9,8 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import io.ReadFile;
 import java.awt.Component;
+
+import javax.crypto.Cipher;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import java.security.InvalidKeyException;
@@ -140,7 +142,7 @@ public class TwofishController
     public void hanldeEncryptFile(final JTextField fieldKey, final String sourceFile, final JTextArea areaResult, final JFrame jFrame) {
         if (this.checkKey(fieldKey)) {
             try {
-                final byte[] encrypt = this.twofishCipher.cryptFile(sourceFile, 1);
+                final byte[] encrypt = this.twofishCipher.cryptFile(sourceFile, Cipher.ENCRYPT_MODE);
                 areaResult.setText(StringUtils.encodeString(encrypt));
                 final File file = new File(sourceFile);
                 this.extention = FilenameUtils.getExtension(file.getName());
@@ -161,7 +163,7 @@ public class TwofishController
     public void hanldeDecryptFile(final JTextField fieldKey, final String sourceFile, final JTextArea areaResult, final JFrame jFrame) {
         if (this.checkKey(fieldKey)) {
             try {
-                final byte[] decrypt = this.twofishCipher.cryptFile(sourceFile, 2);
+                final byte[] decrypt = this.twofishCipher.cryptFile(sourceFile, Cipher.DECRYPT_MODE);
                 areaResult.setText(StringUtils.encodeString(decrypt));
                 final File file = new File(sourceFile);
                 this.extention = FilenameUtils.getExtension(file.getName());

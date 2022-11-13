@@ -96,14 +96,14 @@ public class AESCipher
     }
     
     public String encryptText(final String input) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
-        (this.cipher = Cipher.getInstance(this.algorithnm)).init(1, this.key);
+        (this.cipher = Cipher.getInstance(this.algorithnm)).init(Cipher.ENCRYPT_MODE, this.key);
         final byte[] byteEncrypted = this.cipher.doFinal(input.getBytes());
         final String encrypted = Base64.getEncoder().encodeToString(byteEncrypted);
         return encrypted;
     }
     
     public String decryptText(final String input) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
-        (this.cipher = Cipher.getInstance(this.algorithnm)).init(2, this.key);
+        (this.cipher = Cipher.getInstance(this.algorithnm)).init(Cipher.DECRYPT_MODE, this.key);
         final byte[] byteEncrypted = Base64.getDecoder().decode(input);
         final byte[] byteDecrypted = this.cipher.doFinal(byteEncrypted);
         final String decrypted = new String(byteDecrypted);

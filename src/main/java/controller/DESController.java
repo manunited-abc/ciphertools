@@ -2,6 +2,8 @@ package controller;
 import org.apache.commons.io.FilenameUtils;
 import java.security.GeneralSecurityException;
 import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+
 import java.security.InvalidKeyException;
 import utils.MessageDialog;
 import javax.crypto.NoSuchPaddingException;
@@ -146,13 +148,12 @@ public class DESController
     public void hanldeEncryptFile(final JTextField fieldKey, final String sourceFile, final JTextArea areaResult, final JFrame jFrame) {
         try {
             this.checkKey(fieldKey, jFrame);
-            final byte[] encryptBytes = this.desCipher.cryptoFile(sourceFile, 1);
+            final byte[] encryptBytes = this.desCipher.cryptoFile(sourceFile, Cipher.ENCRYPT_MODE);
             final File file = new File(sourceFile);
             this.extention = FilenameUtils.getExtension(file.getName());
             this.inputBytes = encryptBytes;
-            if (encryptBytes != null) {
-                final String resultStr = StringUtils.printBytes(encryptBytes);
-                areaResult.setText(resultStr);
+            if (encryptBytes != null) {             
+                areaResult.setText(StringUtils.encodeString(encryptBytes));
             }
             else {
                 MessageDialog.showMessageNotFoundFile(jFrame);
@@ -167,13 +168,12 @@ public class DESController
     public void hanldeDecryptFile(final JTextField fieldKey, final String sourceFile, final JTextArea areaResult, final JFrame jFrame) {
         try {
             this.checkKey(fieldKey, jFrame);
-            final byte[] decryptBytes = this.desCipher.cryptoFile(sourceFile, 2);
+            final byte[] decryptBytes = this.desCipher.cryptoFile(sourceFile, Cipher.DECRYPT_MODE);
             final File file = new File(sourceFile);
             this.extention = FilenameUtils.getExtension(file.getName());
             this.inputBytes = decryptBytes;
             if (decryptBytes != null) {
-                final String resultStr = StringUtils.printBytes(decryptBytes);
-                areaResult.setText(resultStr);
+            	 areaResult.setText(StringUtils.encodeString(decryptBytes));
             }
             else {
                 MessageDialog.showMessageNotFoundFile(jFrame);

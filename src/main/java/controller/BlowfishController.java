@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import org.apache.commons.io.FilenameUtils;
 import java.security.GeneralSecurityException;
 import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+
 import java.security.InvalidKeyException;
 import utils.MessageDialog;
 import javax.crypto.NoSuchPaddingException;
@@ -165,13 +167,12 @@ public class BlowfishController {
 			final JFrame jFrame, final String keySize) {
 		try {
 			this.checkKey(fieldKey, jFrame, keySize);
-			final byte[] encryptBytes = this.blowfishCipher.cryptoFile(sourceFile, 1);
+			final byte[] encryptBytes = this.blowfishCipher.cryptoFile(sourceFile, Cipher.ENCRYPT_MODE);
 			final File file = new File(sourceFile);
 			this.extention = FilenameUtils.getExtension(file.getName());
 			this.inputBytes = encryptBytes;
 			if (encryptBytes != null) {
-				final String resultStr = StringUtils.printBytes(encryptBytes);
-				areaResult.setText(resultStr);
+				areaResult.setText(StringUtils.encodeString(encryptBytes));
 			} else {
 				MessageDialog.showMessageNotFoundFile(jFrame);
 			}
@@ -188,13 +189,12 @@ public class BlowfishController {
 			final JFrame jFrame, final String keySize) {
 		try {
 			this.checkKey(fieldKey, jFrame, keySize);
-			final byte[] decryptBytes = this.blowfishCipher.cryptoFile(sourceFile, 2);
+			final byte[] decryptBytes = this.blowfishCipher.cryptoFile(sourceFile, Cipher.DECRYPT_MODE);
 			final File file = new File(sourceFile);
 			this.extention = FilenameUtils.getExtension(file.getName());
 			this.inputBytes = decryptBytes;
 			if (decryptBytes != null) {
-				final String resultStr = StringUtils.printBytes(decryptBytes);
-				areaResult.setText(resultStr);
+				areaResult.setText(StringUtils.encodeString(decryptBytes));
 			} else {
 				MessageDialog.showMessageNotFoundFile(jFrame);
 			}
