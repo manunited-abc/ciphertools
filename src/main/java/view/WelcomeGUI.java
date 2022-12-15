@@ -68,9 +68,16 @@ public class WelcomeGUI extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		 	WelcomeGUI.this.dispose();
-	        final AlgorithmGUI algorithmGUI = new AlgorithmGUI();
-	        algorithmGUI.setVisible(true);
-		
+		WelcomeGUI.this.dispose();
+		 runAlgorithmGUI();
+	}
+
+	public void runAlgorithmGUI() {
+		final AlgorithmGUI algorithmGUI = new AlgorithmGUI();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				algorithmGUI.setVisible(true);
+			}
+		});
 	}
 }
