@@ -180,7 +180,9 @@ public class AlgorithmGUI extends JFrame implements ActionListener, MouseListene
 	private JButton btn_loadfile_sha;
 	private JButton btn_hash_sha;
 	private JButton btn_save_result_sha;
-	private JMenuItem mntmNewMenuItem_1, mntmNewMenuItem, mntmNewMenuItem_2;
+	private JMenuItem mntmNewMenuItem_1;
+	private JMenuItem mntmNewMenuItem;
+	private JMenuItem mntmNewMenuItem_2;
 	private JTabbedPane tabbedPane;
 	private JRadioButton rabtn_file_des;
 	private JRadioButton rabtn_text_des;
@@ -196,19 +198,22 @@ public class AlgorithmGUI extends JFrame implements ActionListener, MouseListene
 	private JTextField txtBit;
 	private JComboBox<String> comboBox_2;
 	private JComboBox<String> comboBox_rsa;
-	private JComboBox<String> comboBox_sha, comboBox_private_rsa, comboBox_public_rsa;
+	private JComboBox<String> comboBox_sha;
+	private JComboBox<String> comboBox_private_rsa;
+	private JComboBox<String> comboBox_public_rsa;
 	private JTextField textField_keySize_blowfish;
 	private JTextField textField;
-	private JTextArea textArea;
-	private JLabel lb_key_vigen, lb_key_hill, lb_key_des, lb_key_ase, lb_key_twofish, lb_key_blowfish, lb_publickey_rsa,
-			lb_privatekey_rsa;
+	private JLabel lb_key_vigen;
+	private JLabel lb_key_hill;
+	private JLabel lb_key_des; 
+	private JLabel lb_key_ase;
+	private JLabel lb_key_twofish;
+	private JLabel lb_key_blowfish;
+	private JLabel lb_publickey_rsa;
+	private JLabel lb_privatekey_rsa;
 
-//    public static void main(final String[] args) {
-//        EventQueue.invokeLater((Runnable)new AlgorithmGUI.AlgorithmGUI$1());
-//    }
 
 	public AlgorithmGUI() {
-		JFrame _this = this;
 
 		this.alphabet = new Alphabet();
 		this.alphabetController = new AlphabetController(this.alphabet);
