@@ -47,7 +47,12 @@ public class AlphabetGUI extends JFrame implements ActionListener {
 		this.contentPane.add(this.textField);
 		this.textField.setColumns(10);
 		final List<String> list = alphabet.listAlphabetDefault();
-		(this.comboBox = new JComboBox(list.toArray(new String[list.size()]))).setSelectedItem(alphabet.getAlphabet());
+		String arrStr[] = new String[list.size()];
+		for(int i = 0; i<list.size();i++) {
+			arrStr[i] = list.get(i);
+		}
+		this.comboBox = new JComboBox(arrStr);
+		this.comboBox.setSelectedItem(alphabet.getAlphabet());
 		this.comboBox.setFont(new Font("Segoe UI", 0, 16));
 		this.comboBox.setBounds(145, 144, 460, 36);
 		this.contentPane.add(this.comboBox);
