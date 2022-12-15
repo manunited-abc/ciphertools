@@ -26,7 +26,7 @@ public class GeneralController
         this.maxSizeFile = 10000L;
         this.maxSizeFileStr = "10KB";
     }
-    
+
     public void handleLoadFileTxt(final JFrame jFrame, final JTextArea area) {
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Specify a file to load");

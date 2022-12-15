@@ -19,7 +19,7 @@ public class TwofishCipher
         this.keySize = 16;
         this.twofish = new Twofish();
     }
-    
+  
     public static void main(final String[] argv) throws Exception {
         final TwofishCipher twofishCipher = new TwofishCipher();
         final String key = "1234567812345678";

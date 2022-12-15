@@ -111,6 +111,10 @@ public class RSAController {
 		return this.extention;
 	}
 
+	public byte[] getByteEncrypt() {
+		return rsaCipher.getByteEncrypt();
+	}
+
 	public void handleLoadPrivateKey(final JTextField fieldKey, final JFrame jFrame) {
 		final JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Specify a file to load");
@@ -119,15 +123,17 @@ public class RSAController {
 			final File fileToSave = fileChooser.getSelectedFile();
 			final String path = fileToSave.getAbsolutePath();
 			try {
-				final PrivateKey privateKey = (PrivateKey) ReadFile.readObject(path);
+				byte[] bytes = ReadFile.readBytes(path);
+				PrivateKey privateKey;
+				privateKey = priavteKeyByte(bytes);
 				this.rsaCipher.setPrivateKey(privateKey);
 				fieldKey.setText(StringUtils.encodeString(this.rsaCipher.getPrivateKey().getEncoded()));
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(jFrame, "File kh\u00f4ng h\u1ee3p l\u1ec7");
-			} catch (ClassNotFoundException e2) {
-				MessageDialog.showMessageNotFoundFile(jFrame);
 			} catch (ClassCastException e3) {
 				JOptionPane.showMessageDialog(jFrame, "File kh\u00f4ng h\u1ee3p l\u1ec7");
+			} catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+				MessageDialog.showMessageKeyInvalid(jFrame);
 			}
 		}
 	}
@@ -140,15 +146,16 @@ public class RSAController {
 			final File fileToSave = fileChooser.getSelectedFile();
 			final String path = fileToSave.getAbsolutePath();
 			try {
-				final PublicKey publicKey = (PublicKey) ReadFile.readObject(path);
+				byte[] bytes = ReadFile.readBytes(path);
+				final PublicKey publicKey =publicKeyByte(bytes);
 				this.rsaCipher.setPublicKey(publicKey);
 				fieldKey.setText(StringUtils.encodeString(this.rsaCipher.getPublicKey().getEncoded()));
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(jFrame, "File kh\u00f4ng h\u1ee3p l\u1ec7");
-			} catch (ClassNotFoundException e2) {
-				MessageDialog.showMessageNotFoundFile(jFrame);
 			} catch (ClassCastException e3) {
 				JOptionPane.showMessageDialog(jFrame, "File kh\u00f4ng h\u1ee3p l\u1ec7");
+			}catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+				MessageDialog.showMessageKeyInvalid(jFrame);
 			}
 		}
 	}
@@ -182,6 +189,21 @@ public class RSAController {
 		return privateKey;
 	}
 
+	public PublicKey publicKeyByte(byte[] bytes) throws InvalidKeySpecException, NoSuchAlgorithmException {
+		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(bytes);
+		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		PublicKey publicKey = keyFactory.generatePublic(keySpec);
+		return publicKey;
+
+	}
+
+	public PrivateKey priavteKeyByte(byte[] bytes) throws InvalidKeySpecException, NoSuchAlgorithmException {
+		PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(bytes);
+		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+		return privateKey;
+	}
+
 	public void handleEncryptText(final JTextArea textArea, final String input, String publicKey, String privateKey,
 			final JFrame jFrame) {
 		try {
@@ -196,7 +218,7 @@ public class RSAController {
 				| BadPaddingException ex2) {
 
 			ex2.printStackTrace();
-		} catch (InvalidKeyException | InvalidKeySpecException |IllegalArgumentException e2) {
+		} catch (InvalidKeyException | InvalidKeySpecException | IllegalArgumentException e2) {
 			MessageDialog.showMessageKeyInvalid(jFrame);
 		}
 	}
@@ -235,7 +257,7 @@ public class RSAController {
 			e.printStackTrace();
 		} catch (NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | IOException ex2) {
 			ex2.printStackTrace();
-		} catch (InvalidKeyException | InvalidKeySpecException |IllegalArgumentException e2) {
+		} catch (InvalidKeyException | InvalidKeySpecException | IllegalArgumentException e2) {
 			MessageDialog.showMessageKeyInvalid(jFrame);
 		}
 	}

@@ -39,7 +39,7 @@ public class RSACipher {
 	Cipher cipher;
 	boolean encryptByPublicKey = true;
 	boolean decryptByPrivateKey = true;
-
+	private byte[] byteEncrypt;
 	public RSACipher() {
 		this.keySizes = new int[] { 2048, 1024 };
 		this.keySize = this.keySizes[0];
@@ -64,7 +64,12 @@ public class RSACipher {
 			break;
 		}
 	}
-
+	public byte[] getByteEncrypt() {
+		return byteEncrypt;
+	}
+	public void setByteEncrypt(byte[] bytes) {
+		this.byteEncrypt = bytes;
+	}
 	public boolean isEncryptByPublicKey() {
 		return encryptByPublicKey;
 	}
@@ -72,7 +77,7 @@ public class RSACipher {
 	public void setEncryptByPublicKey(boolean encryptByPublicKey) {
 		this.encryptByPublicKey = encryptByPublicKey;
 	}
-	
+
 	public boolean isDecryptByPrivateKey() {
 		return decryptByPrivateKey;
 	}
@@ -135,25 +140,38 @@ public class RSACipher {
 
 	public String encryptText(final String input) throws NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-		if(encryptByPublicKey) {
+		if (encryptByPublicKey) {
 			(this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")).init(Cipher.ENCRYPT_MODE, this.publicKey);
-		}else {
+		} else {
 			(this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")).init(Cipher.ENCRYPT_MODE, this.privateKey);
 		}
 		final byte[] data = input.getBytes();
 		final byte[] bytes = this.cipher.doFinal(data);
+		byteEncrypt = bytes;
 		return StringUtils.encodeString(bytes);
+	}
+
+	public byte[] encrypt(final String input) throws NoSuchAlgorithmException, NoSuchPaddingException,
+			InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+		if (encryptByPublicKey) {
+			(this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")).init(Cipher.ENCRYPT_MODE, this.publicKey);
+		} else {
+			(this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")).init(Cipher.ENCRYPT_MODE, this.privateKey);
+		}
+		final byte[] data = input.getBytes();
+		final byte[] bytes = this.cipher.doFinal(data);
+		return bytes;
 	}
 
 	public void encryptFile(final String sourceFile, final String desFile) throws NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
-		if(encryptByPublicKey) {
+		if (encryptByPublicKey) {
 			(this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")).init(Cipher.ENCRYPT_MODE, this.publicKey);
-		}else {
+		} else {
 			(this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")).init(Cipher.ENCRYPT_MODE, this.privateKey);
 		}
 		final DataOutputStream dos = new DataOutputStream(new FileOutputStream(desFile));
-		
+
 		final byte[] byteAlgorithmEncrypt = this.cipher.doFinal(this.symmetryAlgorithm.getBytes());
 		dos.writeInt(byteAlgorithmEncrypt.length);
 		this.writeByte(dos, byteAlgorithmEncrypt);
@@ -173,9 +191,9 @@ public class RSACipher {
 
 	public void decryptFile(final String sourceFile, final String desFile) throws NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
-		if(encryptByPublicKey) {
+		if (encryptByPublicKey) {
 			(this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")).init(Cipher.DECRYPT_MODE, this.privateKey);
-		}else {
+		} else {
 			(this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")).init(Cipher.DECRYPT_MODE, this.publicKey);
 		}
 		final DataInputStream dis = new DataInputStream(new FileInputStream(sourceFile));
@@ -200,9 +218,9 @@ public class RSACipher {
 
 	public String decryptText(final String input) throws InvalidKeyException, NoSuchAlgorithmException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
-		if(decryptByPrivateKey) {
+		if (decryptByPrivateKey) {
 			(this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")).init(Cipher.DECRYPT_MODE, this.privateKey);
-		}else {
+		} else {
 			(this.cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")).init(Cipher.DECRYPT_MODE, this.publicKey);
 		}
 		final byte[] decodeByte = Base64.getDecoder().decode(input);
@@ -223,6 +241,7 @@ public class RSACipher {
 		}
 		return bytes;
 	}
+
 	public PublicKey publicKeyType(String keyString) throws InvalidKeySpecException, NoSuchAlgorithmException {
 		X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(keyString.getBytes()));
 		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -230,11 +249,13 @@ public class RSACipher {
 		return publicKey;
 
 	}
+
 	public static void main(final String[] args)
 			throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException,
 			BadPaddingException, IOException, ClassNotFoundException, InvalidKeySpecException {
 		final RSACipher rsaCipher = new RSACipher();
-		PublicKey publicKey = rsaCipher.publicKeyType("MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnscideH8aH5H9V5LGcYZcQFoiuKdPbWtiO2BggSrQVzXzppbL18ioayHbdl3nU3Qkci0QCQ0GuIBkhuZqmJnXEfj27H93PEpSVIeiHhLhyw9iZkpTw3B0KTITlnP7/naFcM7SBR/KrrSRpP7vypJhckal8NoksJFmdzEjozwWsJNZwpx/dvHY3g/L04zruORXUZnz8xhHu8iqOTNLDtOk4tVUqh8Dk0S6lYo3GTcrsbWlsKmI3j37uZfdDTJ7P0NgbgCFhs9602FIjIhhfPDslqTM2k+0rsbNlEharKMgegQ66X0Mpn80DyOcLT6ff+4H9LhNcpga/u6k51R1jb7qQIDAQAB");
+		PublicKey publicKey = rsaCipher.publicKeyType(
+				"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnscideH8aH5H9V5LGcYZcQFoiuKdPbWtiO2BggSrQVzXzppbL18ioayHbdl3nU3Qkci0QCQ0GuIBkhuZqmJnXEfj27H93PEpSVIeiHhLhyw9iZkpTw3B0KTITlnP7/naFcM7SBR/KrrSRpP7vypJhckal8NoksJFmdzEjozwWsJNZwpx/dvHY3g/L04zruORXUZnz8xhHu8iqOTNLDtOk4tVUqh8Dk0S6lYo3GTcrsbWlsKmI3j37uZfdDTJ7P0NgbgCFhs9602FIjIhhfPDslqTM2k+0rsbNlEharKMgegQ66X0Mpn80DyOcLT6ff+4H9LhNcpga/u6k51R1jb7qQIDAQAB");
 		String aString = Base64.getEncoder().encodeToString(publicKey.getEncoded());
 		System.out.println(aString);
 //		final DESCiphers desCiphers = DESCiphers.getInstance();

@@ -1634,6 +1634,7 @@ public class AlgorithmGUI extends JFrame implements ActionListener, MouseListene
 		panel_29.setBounds(0, 0, 885, 476);
 		panel_28.add(panel_29);
 		(this.btn_save_result_rsa = new JButton("L\u01b0u k\u1ebft qu\u1ea3")).addActionListener(this);
+		
 		this.btn_save_result_rsa.setFont(new Font("Segoe UI", 0, 16));
 		this.btn_save_result_rsa.setBackground(new Color(0, 191, 255));
 		this.btn_save_result_rsa.setBounds(734, 441, 142, 32);
@@ -2480,7 +2481,8 @@ public class AlgorithmGUI extends JFrame implements ActionListener, MouseListene
 			this.generalController.handleSaveObject((Object) this.rsaController.getPrivateKey(), (JFrame) this, "rsa");
 		}
 		if (e.getSource() == this.btn_save_publickey_rsa) {
-			this.generalController.handleSaveObject((Object) this.rsaController.getPublicKey(), (JFrame) this, "rsa");
+			//this.generalController.handleSaveObject((Object) this.rsaController.getPublicKey(), (JFrame) this, "rsa");
+			this.generalController.hanldeSaveBytes(this,  this.rsaController.getPublicKey().getEncoded(),"rsa");
 		}
 		if (e.getSource() == this.btn_load_privatekey_rsa) {
 			this.rsaController.handleLoadPrivateKey(this.textField_privatekey_rsa, (JFrame) this);
@@ -2493,6 +2495,9 @@ public class AlgorithmGUI extends JFrame implements ActionListener, MouseListene
 		}
 		if (e.getSource() == this.btn_loadFile_decrypt_rsa) {
 			this.generalController.handleLoadFileName((JFrame) this, this.lb_filename_decrypt_rsa);
+		}
+		if(e.getSource() == this.btn_save_result_rsa) {
+			generalController.hanldeSaveBytes(this, rsaController.getByteEncrypt(),"rsa");
 		}
 	}
 
@@ -2576,7 +2581,7 @@ public class AlgorithmGUI extends JFrame implements ActionListener, MouseListene
 			MessageDialog.showMessageValidateKeyAes(this);
 		}
 		if (e.getSource() == lb_key_twofish) {
-			MessageDialog.showMessageValidateKeyTwoFish(null);
+			MessageDialog.showMessageValidateKeyTwoFish(this);
 		}
 		if (e.getSource() == lb_key_blowfish) {
 			MessageDialog.showMessageValidateKeyBlowfish(this);
